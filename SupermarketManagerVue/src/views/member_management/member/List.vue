@@ -397,6 +397,12 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     this.newForm.course = this.newForm.course.join(',');
+
+                    const image = document.querySelector('.el-image__inner');
+                    if (image) {
+                        const src = image.getAttribute('src');
+                        this.newForm.name = src
+                    }
                     save(this.newForm).then((res) => {
                         res = res.data;
                         if (res.code == 200) {

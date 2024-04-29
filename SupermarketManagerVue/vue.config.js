@@ -12,8 +12,8 @@ module.exports={
   publicPath: process.env.NODE_ENV === 'production'?'/dist/':'/',
     devServer:{
     // host:"59.110.94.218",
-     host:"59.110.94.218",
-    // host:"localhost",
+    //  host:"59.110.94.218",
+    host:"localhost",
     port: 9292
   },
 }
