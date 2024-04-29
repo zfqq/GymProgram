@@ -9,8 +9,8 @@ import { Message } from "element-ui";
 import Cookies from "js-cookie";
 import qs from 'qs';
 
-const prefix_url = "http://localhost:9291"
-// const prefix_url = "http://59.110.94.218:9291"
+// const prefix_url = "http://localhost:9291"
+const prefix_url = "http://59.110.94.218:9291"
 
 /*刷新Cooke的存活时间*/
 function refreshCookies() {
