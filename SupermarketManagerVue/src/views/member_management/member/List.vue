@@ -26,6 +26,10 @@
                     <i class="iconfont icon-r-find" style="font-size: 18px">
                     </i>
                     搜索</el-button>
+                <el-button type="success" @click="exportMenmber" style="font-size: 18px">
+                    <i class="iconfont icon-r-add" style="font-size: 18px"> </i>
+                    导出会员
+                </el-button>
                 <el-button type="success" @click="newVisable = true" style="font-size: 18px">
                     <i class="iconfont icon-r-add" style="font-size: 18px"> </i>
                     录入会员
@@ -37,6 +41,11 @@
         <div class="table">
             <el-table :data="tableData" style="width: 100%" size="medium">
                 <el-table-column prop="name" label="姓名"> </el-table-column>
+                <el-table-column prop="image" label="头像" width="90" align="center">
+                    <template slot-scope="scope">
+                         <img :src="scope.row.image" width="40" height="40" />
+                    </template>
+                </el-table-column>
                 <el-table-column prop="phone" label="手机号"> </el-table-column>
                 <el-table-column prop="cardnumber" label="会员卡号"> </el-table-column>
                 <el-table-column prop="state" label="状态">
@@ -161,6 +170,9 @@
         <!--修改-->
         <el-dialog title="修改会员" :visible.sync="editVisable" size="mini" label-width="200" width="50%">
             <el-form :model="editForm" :rules="rules" ref="editForm" label-width="100px" class="demo-ruleForm">
+                <el-form-item>
+                    <img :src="editForm.image" width="160" height="160" />
+                </el-form-item>
                 <el-form-item label="姓名：" prop="name">
                     <el-input v-model="editForm.name" placeholder="请输入姓名"></el-input>
                 </el-form-item>
@@ -258,6 +270,7 @@ import {
     queryMemberById,
     getGoodsList,
     instructorsList,
+    examinedReportExportExcel,
 } from "@/api/member_management/member/memberApi";
 import {
     queryPointProductByGoodsId,
@@ -502,6 +515,24 @@ export default {
                 }
             });
         },
+        /** 信息导出方法-start*/
+        exportMenmber() {
+            this.tableLoading = true
+            examinedReportExportExcel(this.searchForm).then((res) => {
+                console.log(res);
+                let blob = new Blob([res.data],{type: 'application/octet-stream;charset=UTF-8'});
+                let downloadElement = document.createElement("a")
+                let href = window.URL.createObjectURL(blob) //创建下载的链接
+                downloadElement.href = href
+                downloadElement.download = "已审核报表.xls" //下载后文件名
+                document.body.appendChild(downloadElement)
+                downloadElement.click() //点击下载
+                document.body.removeChild(downloadElement) //下载完成移除元素
+                window.URL.revokeObjectURL(href) //释放掉blob对象
+                this.tableLoading = false
+            })
+        },
+
 
         resetForm(formName) {
             this.$refs[formName].resetFields();
