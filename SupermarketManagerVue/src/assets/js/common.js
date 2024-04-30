@@ -9,8 +9,8 @@ import { Message } from "element-ui";
 import Cookies from "js-cookie";
 import qs from 'qs';
 
-// const prefix_url = "http://localhost:9291"
-const prefix_url = "http://59.110.94.218:9291"
+const prefix_url = "http://localhost:9291"
+// const prefix_url = "http://59.110.94.218:9291"
 
 /*刷新Cooke的存活时间*/
 function refreshCookies() {
@@ -94,6 +94,30 @@ export function ajaxGet(url, param) {
         },
         params:param
     }).catch((e) => {
+        console.log(e);
+        if (
+            e.response == undefined ||
+            e.response.data == undefined
+        ) {
+            popup(e, "error")
+        } else {
+            popup(e.response.data, "error")
+        }
+
+    })
+}
+/*post导出请求*/
+export function ajaxExportPost(url, param) {
+    return axios({
+        url: prefix_url + url,
+        method: "POST",
+        responseType: 'blob',
+        headers:{
+            'token': refreshCookies() //设置token 其中K名要和后端协调好
+        },
+        data: qs.stringify(param)
+    }).catch((e) => {
+        
         console.log(e);
         if (
             e.response == undefined ||

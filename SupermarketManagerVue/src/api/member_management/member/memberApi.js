@@ -1,4 +1,4 @@
-import {ajaxGet, ajaxPost} from "@/assets/js/common";
+import {ajaxGet, ajaxPost,ajaxExportPost} from "@/assets/js/common";
 
 const apiPrefix = '/member_management/member'
 const apiPrefix1 = '/personnel_management/employee'
@@ -53,4 +53,9 @@ export function queryClassById(data) {
 /*消课记录保存*/
 export function inertcancelclass(data) {
     return ajaxPost(apiPrefix2 + "/inertcancelclass", data)
+}
+
+/*导出Exccle方法*/
+export function examinedReportExportExcel(data) {
+    return ajaxExportPost(apiPrefix + "/reportExportExcel", data)
 }
