@@ -41,10 +41,16 @@
         <div class="table">
             <el-table :data="tableData" style="width: 100%" size="medium">
                 <el-table-column prop="name" label="姓名"> </el-table-column>
-                <el-table-column prop="image" label="头像" width="90" align="center">
+                <el-table-column prop="image" label="头像" width="90"  >
                     <template slot-scope="scope">
-                         <img :src="scope.row.image" width="40" height="40" />
-                    </template>
+              <el-popover
+                placement="right"
+                title=""
+                trigger="hover">
+                <img :src="scope.row.image"/>
+                <img slot="reference" :src="scope.row.image" :alt="scope.row.image" style="max-height: 50px;max-width: 130px">
+              </el-popover>
+        </template> 
                 </el-table-column>
                 <el-table-column prop="phone" label="手机号"> </el-table-column>
                 <el-table-column prop="cardnumber" label="会员卡号"> </el-table-column>
@@ -414,7 +420,7 @@ export default {
                     const image = document.querySelector('.el-image__inner');
                     if (image) {
                         const src = image.getAttribute('src');
-                        this.newForm.name = src
+                        this.newForm.image = src
                     }
                     save(this.newForm).then((res) => {
                         res = res.data;
