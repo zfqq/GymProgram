@@ -121,6 +121,11 @@ const routes = [
                 component: () => import('../views/suspclasses/cancel/List.vue')
             },
             {
+                path: '/suspclasses/handover/List',
+                name: '/suspclasses/handover/List',
+                component: () => import('../views/suspclasses/handover/List.vue')
+            },
+            {
                 path: '/member_management/member/list',
                 name: '/member_management/member/list',
                 component: () => import('../views/member_management/member/List.vue')
