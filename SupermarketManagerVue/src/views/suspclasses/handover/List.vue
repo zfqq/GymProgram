@@ -3,7 +3,7 @@
         <el-breadcrumb separator="/">
             <el-breadcrumb-item>首页</el-breadcrumb-item>
             <el-breadcrumb-item>会员管理</el-breadcrumb-item>
-            <el-breadcrumb-item>会员消课管理</el-breadcrumb-item> </el-breadcrumb
+            <el-breadcrumb-item>交接会员管理-消课管理</el-breadcrumb-item> </el-breadcrumb
         ><br />
 
         <el-row>
@@ -34,7 +34,16 @@
                 >
                     <i class="iconfont icon-r-find" style="font-size: 18px">
                     </i>
-                    搜索会员信息</el-button
+                    搜索滨水城会员信息</el-button
+                >
+                <el-button
+                    type="primary"
+                    @click="submitConnectForm"
+                    style="font-size: 18px"
+                >
+                    <i class="iconfont icon-r-find" style="font-size: 18px">
+                    </i>
+                    搜索皇室会籍信息</el-button
                 >
                 <el-button
                     type="primary"
@@ -49,43 +58,6 @@
         </el-row>
         <br />
         <!--表格数据-->
-        <div class="table">
-            <el-table :data="tableData" style="width: 100%" size="medium">
-                <el-table-column prop="name" label="姓名"> </el-table-column>
-                <el-table-column prop="phone" label="手机号"> </el-table-column>
-                <el-table-column prop="cardnumber" label="会员卡号"> </el-table-column>
-                <el-table-column prop="type" label="会员卡类型"> </el-table-column>
-                <el-table-column prop="state" label="状态">
-                    <template v-slot="scope">
-                        <el-tag v-if="scope.row.state == '0'" type="success"
-                            >正常</el-tag
-                        >
-                        <el-tag v-else type="danger">删除</el-tag>
-                    </template>
-                </el-table-column>
-                <el-table-column
-                    prop="info"
-                    :show-overflow-tooltip="true"
-                    label="备注"
-                >
-                </el-table-column>
-            </el-table>
-            <div style="margin: 10px 0 15px 0">
-                <el-pagination
-                    @size-change="handleSizeChange"
-                    @current-change="handleCurrentChange"
-                    :current-page.sync="searchForm.currentPage"
-                    :page-sizes="[5, 10, 20, 50]"
-                    :page-size="searchForm.pageSize"
-                    layout="total,sizes, prev, pager, next,jumper"
-                    :total="searchForm.total"
-                >
-                </el-pagination>
-            </div>
-            </div>
-            </br>
-        </br>
-    </br>
         <br />
 
         <div class="table">
@@ -93,20 +65,11 @@
                 
                 <el-table-column prop="membername" label="会员姓名"> </el-table-column>
                 <el-table-column prop="cardnumber" label="会员卡号"> </el-table-column>
-                <el-table-column prop="classname" label="课程名称"> </el-table-column>
-                <el-table-column prop="allcancee" label="课程总课时"> </el-table-column>
-                <el-table-column prop="suspend" label="课程状态">
-                    <template v-slot="scope">
-                        <el-tag
-                            size="mini"
-                            type="success"
-                            v-if="scope.row.suspend == '0'"
-                            >开课</el-tag
-                        >
-                        <el-tag size="mini" type="danger" v-else>截课</el-tag>
-                    </template>    
-                </el-table-column>
-                <el-table-column prop="surpluscancee" label="课程剩余课时"> </el-table-column>
+                <el-table-column prop="cardnumber" label="会员手机号"> </el-table-column>
+                <el-table-column prop="cardnumber" label="会员到期时间"> </el-table-column>
+                <el-table-column prop="cardnumber" label="会员课程类型课程"> </el-table-column>
+                <el-table-column prop="cardnumber" label="会员剩余课程"> </el-table-column>
+                <el-table-column prop="allcancee" label="会员课程总课时"> </el-table-column>
                 <el-table-column prop="cancetime" label="上次消课时间"> </el-table-column>
                 <el-table-column prop="canceemname" label="上次消课教练"> </el-table-column>
                 <el-table-column label="操作" width="420" fixed="right">
@@ -205,16 +168,15 @@ import {
     save,
     getGoodsList,
     instructorsList,
-    queryClassPageByQo,
-    queryClassPageByCo,
+    queryConnectPageCo,
+    queryConnectMembersPageCo,
+    handoveCourse,
     queryClassById,
     inertcancelclass,
 } from "@/api/member_management/member/memberApi";
 import {
     queryPointProductByGoodsId,
   } from "@/api/sale_management/exchange_point_products/exchangePointProductsApi";
-import axios from "axios";
-import { Empty } from "element-ui";
 
 export default {
     data() {
@@ -272,7 +234,7 @@ export default {
     },
     methods: {
         init() {
-            queryClassPageByQo(this.searchForm).then((res) => {
+            queryConnectPageCo(this.searchForm).then((res) => {
                 res = res.data;
                 if (res.code == 200) {
                     console.log(res.data);
@@ -318,14 +280,9 @@ export default {
          
             this.init();
         },
-        
-        submitCancelForm() {
-            if((this.searchForm.cardnumber  ==  ''  || this.searchForm.cardnumber == null)){
-                alert('请输入会员卡号')
-                return;
-            } 
+        submitConnectForm() {
             // this.searchForm.type = this.searchForm.type.join(',');
-            queryClassPageByCo(this.searchForm).then((res) => {
+            handoveCourse(this.searchForm).then((res) => {
                 res = res.data;
                 if (res.code == 200) {
                     console.log(res.data);
@@ -336,6 +293,21 @@ export default {
                 }
             });
         },
+
+        submitCancelForm() {
+            // this.searchForm.type = this.searchForm.type.join(',');
+            handoveCourse(this.searchForm).then((res) => {
+                res = res.data;
+                if (res.code == 200) {
+                    console.log(res.data);
+                    this.tableClassData = res.data.records;
+            
+                } else {
+                    popup(res.msg, "error");
+                }
+            });
+        },
+        
         saveCancel(formName) {
             this.newForm = {};
             this.$refs[formName].resetFields();

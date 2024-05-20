@@ -3,6 +3,7 @@ import {ajaxGet, ajaxPost,ajaxExportPost} from "@/assets/js/common";
 const apiPrefix = '/member_management/member'
 const apiPrefix1 = '/personnel_management/employee'
 const apiPrefix2 = '/suspclasses/cancel'
+const apiPrefix3 = '/suspclasses/handover'
 
 
 /*列表显示*/
@@ -58,4 +59,16 @@ export function inertcancelclass(data) {
 /*导出Exccle方法*/
 export function examinedReportExportExcel(data) {
     return ajaxExportPost(apiPrefix + "/reportExportExcel", data)
+}
+/*搜索滨水城会员信息*/
+export function queryConnectPageCo(data) {
+    return ajaxExportPost(apiPrefix3 + "/getConnectList", data)
+}
+/*搜索皇室会籍信息*/
+export function queryConnectMembersPageCo(data) {
+    return ajaxExportPost(apiPrefix3 + "/queryConnectMembersList", data)
+}
+/*搜索交接课程信息信息*/
+export function handoveCourse(data) {
+    return ajaxExportPost(apiPrefix3 + "/getConnectList", data)
 }
