@@ -62,13 +62,17 @@ export function examinedReportExportExcel(data) {
 }
 /*搜索滨水城会员信息*/
 export function queryConnectPageCo(data) {
-    return ajaxExportPost(apiPrefix3 + "/getConnectList", data)
+    return ajaxPost(apiPrefix3 + "/getConnectList", data)
 }
 /*搜索皇室会籍信息*/
 export function queryConnectMembersPageCo(data) {
-    return ajaxExportPost(apiPrefix3 + "/queryConnectMembersList", data)
+    return ajaxPost(apiPrefix3 + "/queryConnectMembersList", data)
 }
 /*搜索交接课程信息信息*/
 export function handoveCourse(data) {
-    return ajaxExportPost(apiPrefix3 + "/getConnectList", data)
+    return ajaxPost(apiPrefix3 + "/getConnectList", data)
+}
+/*搜索交接课程消课信息信息*/
+export function queryClassByIdByHandover(data) {
+    return ajaxPost(apiPrefix3 + "/inertcancelclass", data)
 }
